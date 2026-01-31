@@ -6,8 +6,11 @@ export const ToggleSettings = () => {
   const dispatch = useDispatch();
 
   return (
-    <button onClick={() => dispatch(toggleUnit())}>
-     {unit}
-    </button>
+    <button
+    onClick={() => dispatch(toggleUnit())}
+    className="px-4 py-2 rounded bg-blue-500 text-white"
+  >
+    {unit === "metric" ? "°C → °F" : "°F → °C"}
+  </button>
   );
 };

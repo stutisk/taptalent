@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  unit: localStorage.getItem("Celsius") || "Fahrenheit",
+  unit: localStorage.getItem("unit") || "metric",
 };
 
 const settingsSlice = createSlice({
@@ -9,7 +9,7 @@ const settingsSlice = createSlice({
   initialState,
   reducers: {
     toggleUnit(state) {
-      state.unit = state.unit === "Fahrenheit" ? "Celsius" : "Fahrenheit";
+      state.unit = state.unit === "metric" ? "imperial" : "metric";
       localStorage.setItem("unit", state.unit);
     },
   },
