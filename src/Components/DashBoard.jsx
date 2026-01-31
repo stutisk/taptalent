@@ -1,49 +1,31 @@
-import { useSelector } from "react-redux";
-import { CITIES } from "../utils/cities";
+import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
-import { getCurrentWeather } from "../services/weatherapi";
+import { fetchCurrentWeather } from "../features/weather/weatherSlice";
 import { CityCard } from "./CityCard";
 import { CityDetailsModal } from "./CityDetailsModal";
 import { Navbar } from "./Navbar";
-import { FaSpinner, TbPinnedFilled , MdLocationCity } from "../utils/Icons";
-
+import { FaSpinner, TbPinnedFilled, MdLocationCity } from "../utils/Icons";
 
 export const DashBoard = () => {
+  const dispatch = useDispatch();
   const unit = useSelector((state) => state.settings.unit);
-  const [allCitiesWeather, setAllCitiesWeather] = useState([]);
-  const [favoriteWeather, setFavoriteWeather] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const favoriteCities = useSelector((state) => state.favorites.cities);
+  const {
+    allCitiesWeather,
+    favoriteWeather,
+    loading,
+    error,
+  } = useSelector((state) => state.weather);
+
   const [selectedCity, setSelectedCity] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
-  const favoriteCities = useSelector((state) => state.favorites.cities);
-  useEffect(() => {
-    const fetchWeather = async () => {
-      try {
-        // setLoading(true);
-        const allCitiesData = await Promise.all(
-          CITIES.map((city) => getCurrentWeather(city, unit))
-        );
-
-        const favoriteData = await Promise.all(
-          favoriteCities.map((city) => getCurrentWeather(city.name, unit))
-        );
-
-        setAllCitiesWeather(allCitiesData);
-        setFavoriteWeather(favoriteData);
-      } catch (err) {
-        console.error("Weather fetch failed", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchWeather();
-    const interval = setInterval(fetchWeather, 60 * 1000);
-
-    return () => clearInterval(interval);
-  }, [unit, favoriteCities]);
-
   const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    dispatch(fetchCurrentWeather());
+    const interval = setInterval(() => dispatch(fetchCurrentWeather()), 60 * 1000);
+    return () => clearInterval(interval);
+  }, [dispatch, unit, favoriteCities]);
 
   const handleCitySelect = (city) => {
     const filtered = allCitiesWeather.filter(
@@ -71,6 +53,11 @@ export const DashBoard = () => {
       />
 
       <main className="min-h-screen pt-28 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mb-20">
+        {error && (
+          <div className="mb-4 p-4 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
+            {error}
+          </div>
+        )}
         {loading ? (
           <div className="flex flex-col items-center justify-center mt-24 text-sky-600">
             <FaSpinner className="animate-spin text-4xl mb-4" />
