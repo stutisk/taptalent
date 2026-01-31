@@ -10,6 +10,10 @@ A React weather app that shows weather for multiple cities and allows users to a
 - Toast notifications on favorite actions
 - Unit toggle (°C / °F)
 
+### Live Link
+https://weatheranalytics12.netlify.app/
+
+
 ### Tech Stack
 - React
 - Redux Toolkit
