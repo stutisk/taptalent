@@ -7,6 +7,7 @@ import { CityDetailsModal } from "./CityDetailsModal";
 import { Navbar } from "./Navbar";
 import { FaSpinner } from "react-icons/fa";
 import { TbPinnedFilled } from "react-icons/tb";
+import { MdLocationCity } from "react-icons/md";
 
 export const DashBoard = () => {
   const unit = useSelector((state) => state.settings.unit);
@@ -15,18 +16,19 @@ export const DashBoard = () => {
   const [loading, setLoading] = useState(true);
   const [selectedCity, setSelectedCity] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
-
+  const favoriteCities = useSelector((state) => state.favorites.cities);
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        setLoading(true);
-        const favorites = getFavorites();
+        // setLoading(true);
         const allCitiesData = await Promise.all(
           CITIES.map((city) => getCurrentWeather(city, unit))
         );
+
         const favoriteData = await Promise.all(
-          favorites.map((city) => getCurrentWeather(city.name, unit))
+          favoriteCities.map((city) => getCurrentWeather(city.name, unit))
         );
+
         setAllCitiesWeather(allCitiesData);
         setFavoriteWeather(favoriteData);
       } catch (err) {
@@ -35,10 +37,12 @@ export const DashBoard = () => {
         setLoading(false);
       }
     };
+
     fetchWeather();
     const interval = setInterval(fetchWeather, 60 * 1000);
+
     return () => clearInterval(interval);
-  }, [unit]);
+  }, [unit, favoriteCities]);
 
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -123,9 +127,11 @@ export const DashBoard = () => {
             )}
             {searchResults.length === 0 && (
               <section>
-                <h2 className="mb-5 text-lg font-semibold text-gray-800">
+                <h2 className="mb-5 flex items-center gap-2 text-3xl font-semibold text-sky-700">
+                  <MdLocationCity className="text-sky-500 text-xl" />
                   All Cities
                 </h2>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   {allCitiesWeather.map((city) => (
                     <CityCard

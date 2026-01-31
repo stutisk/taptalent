@@ -1,53 +1,36 @@
-import { useEffect, useState } from "react";
-import { getFavorites, saveFavorites } from "../utils/cities";
+import { toast } from "react-toastify";
 import { FaStar, FaRegStar } from "react-icons/fa";
 import { WiHumidity, WiStrongWind } from "react-icons/wi";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleFavorite } from "../features/favourite/favoritesSlice";
 
 export const CityCard = ({ data, unit, onClick }) => {
   const symbol = unit === "metric" ? "°C" : "°F";
-  const [isFav, setIsFav] = useState(false);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    const favs = getFavorites();
-    setIsFav(favs.some((c) => c.id === data.id));
-  }, [data.id]);
+  const favorites = useSelector((state) => state.favorites.cities);
+  const isFav = favorites.some((c) => c.id === data.id);
 
-  const toggleFavorite = (e) => {
+  const handleFavoriteClick = (e) => {
     e.stopPropagation();
-    let favs = getFavorites();
+    dispatch(toggleFavorite(data));
     if (isFav) {
-      favs = favs.filter((c) => c.id !== data.id);
+      toast.info("Removed from favorites", { toastId: data.id });
     } else {
-      favs.push(data);
+      toast.success("Added to favorites ", { toastId: data.id });
     }
-    saveFavorites(favs);
-    setIsFav(!isFav);
+    
   };
+  
 
   return (
     <div
       onClick={() => onClick?.(data)}
-      className="
-        group
-        relative
-        cursor-pointer
-        rounded-2xl
-        bg-gradient-to-br from-white to-sky-50
-        border border-gray-200/70
-        p-5
-        shadow-md
-        transition-all duration-300
-        hover:-translate-y-1 hover:shadow-xl
-      "
+      className="group relative cursor-pointer rounded-2xl bg-gradient-to-br from-white to-sky-50 border border-gray-200/70 p-5 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
     >
       <button
-        onClick={toggleFavorite}
-        className="
-          absolute top-3 right-3
-          text-xl
-          transition-transform duration-200
-          hover:scale-125
-        "
+        onClick={handleFavoriteClick}
+        className="absolute top-3 right-3 text-xl transition-transform duration-200 hover:scale-125"
         title={isFav ? "Remove from favorites" : "Add to favorites"}
       >
         {isFav ? (
@@ -85,15 +68,13 @@ export const CityCard = ({ data, unit, onClick }) => {
         <p className="flex items-center gap-1">
           <WiHumidity className="text-sky-500 text-lg" />
           <span>Humidity:</span>
-          <strong className="text-gray-700">{data.main.humidity}%</strong>
+          <strong>{data.main.humidity}%</strong>
         </p>
 
         <p className="flex items-center gap-1">
           <WiStrongWind className="text-sky-500 text-lg" />
           <span>Wind:</span>
-          <strong className="text-gray-700">
-            {Math.round(data.wind.speed)} km/h
-          </strong>
+          <strong>{Math.round(data.wind.speed)} km/h</strong>
         </p>
       </div>
     </div>
