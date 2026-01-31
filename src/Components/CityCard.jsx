@@ -27,7 +27,7 @@ export const CityCard = ({ data, unit, onClick }) => {
     >
       <button
         onClick={handleFavoriteClick}
-        className="absolute top-3 right-3 text-xl transition-transform duration-200 hover:scale-125"
+        className="cursor-pointer absolute top-3 right-3 text-xl transition-transform duration-200 hover:scale-125"
         title={isFav ? "Remove from favorites" : "Add to favorites"}
       >
         {isFav ? (
