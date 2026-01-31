@@ -1,7 +1,6 @@
 import { toast } from "react-toastify";
-import { FaStar, FaRegStar } from "react-icons/fa";
-import { WiHumidity, WiStrongWind } from "react-icons/wi";
 import { useDispatch, useSelector } from "react-redux";
+import { FaStar, FaRegStar, WiHumidity, WiStrongWind } from "../utils/Icons";
 import { toggleFavorite } from "../features/favourite/favoritesSlice";
 
 export const CityCard = ({ data, unit, onClick }) => {
@@ -19,9 +18,7 @@ export const CityCard = ({ data, unit, onClick }) => {
     } else {
       toast.success("Added to favorites ", { toastId: data.id });
     }
-    
   };
-  
 
   return (
     <div

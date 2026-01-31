@@ -6,7 +6,19 @@ export const CITIES = [
     "Kolkata",
     "London",
     "New York",
-    "Kullu"
+    "Kullu",
+    "Hyderabad",
+    "Pune",
+    "Ahmedabad",
+    "Jaipur",
+    "Lucknow",
+    "Kanpur",
+    "Nagpur",
+    "Indore",
+    "Bhopal",
+    "Surat",
+    "Vadodara",
+    "Coimbatore",
    
   ];
 

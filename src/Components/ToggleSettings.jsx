@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { toggleUnit } from "../features/settings/settingsSlice";
-import { FiSettings } from "react-icons/fi";
+import { FiSettings } from "../utils/Icons";
 
 export const ToggleSettings = () => {
   const unit = useSelector((state) => state.settings.unit);

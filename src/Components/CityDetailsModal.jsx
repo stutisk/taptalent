@@ -8,8 +8,13 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { FaTimes } from "react-icons/fa";
-import { WiHumidity, WiStrongWind, WiThermometer } from "react-icons/wi";
+
+import {
+  WiHumidity,
+  WiStrongWind,
+  WiThermometer,
+  FaTimes,
+} from "../utils/Icons";
 import { StatCard } from "./StatCard";
 
 export const CityDetailsModal = ({ city, unit, onClose }) => {

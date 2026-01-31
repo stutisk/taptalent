@@ -1,13 +1,12 @@
 import { useSelector } from "react-redux";
-import { CITIES, getFavorites } from "../utils/cities";
+import { CITIES } from "../utils/cities";
 import { useState, useEffect } from "react";
 import { getCurrentWeather } from "../services/weatherapi";
 import { CityCard } from "./CityCard";
 import { CityDetailsModal } from "./CityDetailsModal";
 import { Navbar } from "./Navbar";
-import { FaSpinner } from "react-icons/fa";
-import { TbPinnedFilled } from "react-icons/tb";
-import { MdLocationCity } from "react-icons/md";
+import { FaSpinner, TbPinnedFilled , MdLocationCity } from "../utils/Icons";
+
 
 export const DashBoard = () => {
   const unit = useSelector((state) => state.settings.unit);

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { searchCities } from "../services/weatherapi";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch } from "../utils/Icons";
 export const CitySearch = ({ query, setQuery, onSelect }) => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
