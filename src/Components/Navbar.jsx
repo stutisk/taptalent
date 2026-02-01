@@ -23,7 +23,11 @@ export const Navbar = ({ onCitySelect, query, setQuery }) => {
       </section>
 
       <div className="sm:hidden px-4 pb-3">
-        <CitySearch onSelect={handleSelect} />
+        <CitySearch
+          query={query}
+          setQuery={setQuery}
+          onSelect={onCitySelect}
+        />
       </div>
     </header>
   );
